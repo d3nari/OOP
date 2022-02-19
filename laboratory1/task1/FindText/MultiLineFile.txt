@@ -1,0 +1,6 @@
+Hello,
+	this is a haystack with a needle.
+	Some lines of this haystack contain needle,
+	while some other lines does not.
+	Let's find all needles in
+	this haystack.
