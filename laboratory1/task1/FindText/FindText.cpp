@@ -25,10 +25,10 @@ optional<Args> ParseArgs(int argc, char* argv[])
 using FindStringCallback = function<void(int lineIndex, const string& line, size_t foundPos)>;
 using NoneStringCallback = function<void(bool found)>;
 
-void FindStingInStream(
+void FindString(
 	istream& haystack,
 	const string& needle,
-	const FindStringCallback& callback = FindStringCallback(),
+	const FindStringCallback& foundCallback = FindStringCallback(),
 	const NoneStringCallback& dontFoundCallback = NoneStringCallback())
 {
 	string line;
@@ -39,12 +39,7 @@ void FindStingInStream(
 		if (pos != string::npos)
 		{
 			found = true;
-			// Передаем в функцию обратного вызова информацию о
-			// первом найденном вхождении подстроки
-			if (callback)
-			{
-				callback(lineIndex, line, pos);
-			}
+			foundCallback(lineIndex, line, pos);
 		}
 	}
 	dontFoundCallback(found);
@@ -52,9 +47,8 @@ void FindStingInStream(
 
 bool CheckInputWord(string searchStringName)
 {
-	//Проверка на пустоту слова
 	if (searchStringName == "")
-	{
+	{ 
 		cout << "Search word is empty";
 		return 0;
 	}
@@ -63,7 +57,6 @@ bool CheckInputWord(string searchStringName)
 
 bool CheckInputFile(ifstream& input, string inputFileName)
 {
-	//Проверка входного файла
 	if (!input.is_open())
 	{
 		cout << "Fail to open '" << inputFileName << "' for reading";
@@ -89,9 +82,13 @@ bool CheckArgsCount(int argc)
 	}
 }
 
-bool CheckFound()
+bool CheckInterrupt(ifstream& input)
 {
-	return 0;
+	if (input.bad())
+	{
+		std::cout << "Failed to read data from input file \n";
+		return 0;
+	}
 }
 
 void PrintFoundLineIndex(int lineIndex, const string& /*line*/, size_t /*foundPos*/)
@@ -110,16 +107,13 @@ void PrintDontFound(bool found)
 int main(int argc, char* argv[])
 {
 
-	
 	if (!CheckArgsCount(argc))
 	{
 		return 1;
 	}
-
-	//Инициализация переменных
+	
 	auto args = ParseArgs(argc, argv);
 
-	//Проверка полноты входных данных
 	if (!CheckArgs(args))
 	{
 		return 1;
@@ -128,18 +122,14 @@ int main(int argc, char* argv[])
 	std::ifstream input;
 	input.open(args -> inputFileName);
 
-	//Отслеживание ошибок входных данных
 	if (!CheckInputWord(args->searchStringName) || !CheckInputFile(input, args->inputFileName))
 	{
 		return 1;
 	}
 
+	FindString(input, args->searchStringName, PrintFoundLineIndex, PrintDontFound);
 
-	
-	//Главный алгоритм
-	FindStingInStream(input, args->searchStringName, PrintFoundLineIndex, PrintDontFound);
 
-	
 	input.clear(); // сбросили флаг окончания потока
 	return 0;
 }

@@ -161,7 +161,10 @@
     <None Include="Tests.bat" />
   </ItemGroup>
   <ItemGroup>
+    <Text Include="Not_Digit_output.txt" />
+    <Text Include="Null_Number_output.txt" />
     <Text Include="Number_output.txt" />
+    <Text Include="Number_Out_Bounds_output.txt" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

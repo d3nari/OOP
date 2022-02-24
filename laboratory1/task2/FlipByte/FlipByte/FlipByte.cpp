@@ -12,7 +12,6 @@ optional<Args> ParseArgs(int argc, char* argv[])
 {
 	if (argc != 2)
 	{
-		cout << "Invalid arguments count \n";
 		return nullopt;
 	}
 	Args args;
@@ -20,33 +19,15 @@ optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-string ToBinaryString(unsigned int n) {
-	string buffer;
-	for (int i = 0; i < 8; ++i)
-	{	
-		if (n > 0) {
-			buffer += char('0' + n % 2);
-			n = n / 2;
-		}
-		else
-		{
-			buffer += char('0');
-		}
-	}
-
-	return buffer;
-}
-
-int ReverseBinaryString(string n) {
-	int reverseNumber = 0;
-	string num;
-
-	for (int i = 0; i <= 7; ++i)
+int ReverseInt(unsigned int n) {
+	int x = n; 
+	int r = 0;
+	for (int i = 7, k = 0; i >= 0; --i, k++)
 	{
-		num = n[i];
-		reverseNumber = stoi(num) * pow(2, 7-i) + reverseNumber;
+		r |= ((x >> i) & 1) << k;
 	}
-	return reverseNumber;
+	printf("%i\n", r);
+	return 1;
 }
 
 bool CheckCorrectInputNumber(string n) {
@@ -73,14 +54,28 @@ bool CheckCorrectInputNumber(string n) {
 	return true;
 }
 
+bool CheckArgs(int argc) {
+	if (!argc)
+	{
+		cout << "Invalid arguments count \n";
+		return false;
+	}
+	return true;
+}
+
 int main(int argc, char* argv[])
 {
 	auto args = ParseArgs(argc, argv);
-
-	if (CheckCorrectInputNumber(args -> inputNumber)) 
+	if (!CheckArgs)
 	{
-		cout << ReverseBinaryString(ToBinaryString(stoi(args -> inputNumber)));
+		return 1;
 	}
+	if (!CheckCorrectInputNumber(args->inputNumber))
+	{
+		return 1;
+	}
+	ReverseInt(stoi(args->inputNumber));
+	return 0;
 }
 
 

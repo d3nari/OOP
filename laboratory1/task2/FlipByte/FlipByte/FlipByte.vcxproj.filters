@@ -28,5 +28,14 @@
     <Text Include="Number_output.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
+    <Text Include="Null_Number_output.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="Number_Out_Bounds_output.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
+    <Text Include="Not_Digit_output.txt">
+      <Filter>Файлы ресурсов</Filter>
+    </Text>
   </ItemGroup>
 </Project>
