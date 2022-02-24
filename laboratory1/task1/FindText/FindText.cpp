@@ -16,12 +16,6 @@ typedef struct Args
 
 optional<Args> ParseArgs(int argc, char* argv[])
 {
-	if (argc != 3)
-	{
-		cout << "Invalid arguments count \n";
-		cout << "Usage: CopyFile.exe <input file name> <output file name> \n";
-		return nullopt;
-	}
 	Args args;
 	args.inputFileName = argv[1];
 	args.searchStringName = argv[2];
@@ -29,11 +23,13 @@ optional<Args> ParseArgs(int argc, char* argv[])
 }
 
 using FindStringCallback = function<void(int lineIndex, const string& line, size_t foundPos)>;
+using NoneStringCallback = function<void(bool found)>;
 
-bool FindStingInStream(
+void FindStingInStream(
 	istream& haystack,
 	const string& needle,
-	const FindStringCallback& callback = FindStringCallback())
+	const FindStringCallback& callback = FindStringCallback(),
+	const NoneStringCallback& dontFoundCallback = NoneStringCallback())
 {
 	string line;
 	bool found = false;
@@ -51,10 +47,10 @@ bool FindStingInStream(
 			}
 		}
 	}
-	return found;
+	dontFoundCallback(found);
 }
 
-bool CheckError(ifstream &input, string searchStringName, string inputFileName)
+bool CheckInputWord(string searchStringName)
 {
 	//Проверка на пустоту слова
 	if (searchStringName == "")
@@ -62,14 +58,17 @@ bool CheckError(ifstream &input, string searchStringName, string inputFileName)
 		cout << "Search word is empty";
 		return 0;
 	}
+	return 1;
+}
 
+bool CheckInputFile(ifstream& input, string inputFileName)
+{
 	//Проверка входного файла
 	if (!input.is_open())
 	{
 		cout << "Fail to open '" << inputFileName << "' for reading";
 		return 0;
 	}
-
 }
 
 bool CheckArgs(optional<Args> args)
@@ -80,9 +79,19 @@ bool CheckArgs(optional<Args> args)
 	}
 }
 
+bool CheckArgsCount(int argc)
+{
+	if (argc != 3)
+	{
+		cout << "Invalid arguments count \n";
+		cout << "Usage: CopyFile.exe <input file name> <output file name> \n";
+		return 0;
+	}
+}
+
 bool CheckFound()
 {
-	
+	return 0;
 }
 
 void PrintFoundLineIndex(int lineIndex, const string& /*line*/, size_t /*foundPos*/)
@@ -90,8 +99,23 @@ void PrintFoundLineIndex(int lineIndex, const string& /*line*/, size_t /*foundPo
 	cout << lineIndex << endl;
 }
 
+void PrintDontFound(bool found)
+{
+	if (!found)
+	{
+		cout << "No string found" << endl;
+	}
+}
+
 int main(int argc, char* argv[])
 {
+
+	
+	if (!CheckArgsCount(argc))
+	{
+		return 1;
+	}
+
 	//Инициализация переменных
 	auto args = ParseArgs(argc, argv);
 
@@ -105,16 +129,17 @@ int main(int argc, char* argv[])
 	input.open(args -> inputFileName);
 
 	//Отслеживание ошибок входных данных
-	if (!CheckError(input, args->searchStringName, args->inputFileName))
+	if (!CheckInputWord(args->searchStringName) || !CheckInputFile(input, args->inputFileName))
 	{
 		return 1;
 	}
+
+
 	
 	//Главный алгоритм
-	if (!FindStingInStream(input, args->searchStringName, PrintFoundLineIndex))
-	{
-		cout << "No string found" << endl;
-	}
+	FindStingInStream(input, args->searchStringName, PrintFoundLineIndex, PrintDontFound);
 
+	
 	input.clear(); // сбросили флаг окончания потока
+	return 0;
 }

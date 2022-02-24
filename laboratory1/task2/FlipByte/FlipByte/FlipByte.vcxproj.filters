@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="FindText.cpp">
+    <ClCompile Include="FlipByte.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -25,37 +25,7 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Text Include="MultiLineFile.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="MultiLineFile_output.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="SingleLineFile.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="SingleLineFile_output.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="WithoutSearchWordFile.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="WithoutSearchWordFile_output.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="EmptyFile.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="EmptyFile_output.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="FileForNullWord .txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="FileForNullWord_output.txt">
-      <Filter>Файлы ресурсов</Filter>
-    </Text>
-    <Text Include="FileNameWithEror_output.txt">
+    <Text Include="Number_output.txt">
       <Filter>Файлы ресурсов</Filter>
     </Text>
   </ItemGroup>

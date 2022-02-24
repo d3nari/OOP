@@ -28,14 +28,14 @@ fc %TEMP%\output.txt WithoutSearchWordFile_output.txt > nul || goto err
 echo Test 4 passed
 
 REM Find null word in file
-%MyProgram% SingleLineFile.txt "" > %TEMP%\output.txt || goto err
-fc %TEMP%\output.txt SingleLineFile_output.txt > nul || goto err
+%MyProgram% FileForNullWord.txt "" > %TEMP%\output.txt && goto err
+fc %TEMP%\output.txt FileForNullWord_output.txt > nul || goto err
+echo Test 5 passed
 
 REM Incorrect file
-%MyProgram% FileNameWithEror.txt "" > %TEMP%\output.txt || goto err
+%MyProgram% FileNameWithEror.txt "needle" > %TEMP%\output.txt && goto err
 fc %TEMP%\output.txt FileNameWithEror_output.txt > nul || goto err
-
-
+echo Test 6 passed
 
 exit /B 0
 
