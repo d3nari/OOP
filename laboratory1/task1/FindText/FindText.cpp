@@ -45,34 +45,36 @@ void FindString(
 	dontFoundCallback(found);
 }
 
-bool CheckInputWord(string searchStringName)
+bool InputWordWasNull(string searchStringName)
 {
 	if (searchStringName == "")
 	{ 
 		cout << "Search word is empty";
-		return 0;
+		return 1;
 	}
-	return 1;
+	return 0;
 }
 
-bool CheckInputFile(ifstream& input, string inputFileName)
+bool InputFileWasOpened(ifstream& input, string inputFileName)
 {
-	if (!input.is_open())
+	if (input.is_open())
 	{
-		cout << "Fail to open '" << inputFileName << "' for reading";
-		return 0;
+		return 1;
 	}
+	cout << "Fail to open '" << inputFileName << "' for reading";
+	return 0;
 }
 
-bool CheckArgs(optional<Args> args)
+bool ArgsVariableDontExist(optional<Args> args)
 {
 	if (!args)
 	{
-		return 0;
+		return 1;
 	}
+	return 0;
 }
 
-bool CheckArgsCount(int argc)
+bool ArgsContainRquiredAmount(int argc)
 {
 	if (argc != 3)
 	{
@@ -80,6 +82,7 @@ bool CheckArgsCount(int argc)
 		cout << "Usage: CopyFile.exe <input file name> <output file name> \n";
 		return 0;
 	}
+	return 1;
 }
 
 bool CheckInterrupt(ifstream& input)
@@ -107,25 +110,18 @@ void PrintDontFound(bool found)
 int main(int argc, char* argv[])
 {
 
-	if (!CheckArgsCount(argc))
-	{
-		return 1;
-	}
-	
+	if (!ArgsContainRquiredAmount(argc)) { return 1; }
+
 	auto args = ParseArgs(argc, argv);
 
-	if (!CheckArgs(args))
-	{
-		return 1;
-	}
+	if (InputWordWasNull(args->searchStringName)) { return 1; }
+	if (ArgsVariableDontExist(args)) { return 1; }
 	
+
 	std::ifstream input;
 	input.open(args -> inputFileName);
 
-	if (!CheckInputWord(args->searchStringName) || !CheckInputFile(input, args->inputFileName))
-	{
-		return 1;
-	}
+	if (!InputFileWasOpened(input, args->inputFileName)) { return 1; }
 
 	FindString(input, args->searchStringName, PrintFoundLineIndex, PrintDontFound);
 

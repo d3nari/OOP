@@ -5,7 +5,7 @@ using namespace std;
 
 typedef struct Args
 {
-	string inputNumber;
+	string inputNumber; //number
 };
 
 optional<Args> ParseArgs(int argc, char* argv[])
@@ -19,23 +19,24 @@ optional<Args> ParseArgs(int argc, char* argv[])
 	return args;
 }
 
-int ReverseInt(unsigned int n) {
+int ReverseInt(uint8_t n)
+{
 	int x = n; 
-	int r = 0;
+	uint8_t r = 0;
 	for (int i = 7, k = 0; i >= 0; --i, k++)
 	{
 		r |= ((x >> i) & 1) << k;
 	}
-	printf("%i\n", r);
 	return 1;
 }
 
-bool CheckCorrectInputNumber(string n) {
+bool InputNumberCorrectWas(string n) {
 	if (n == "")
 	{
 		cout << "Empty value";
 		return false;
 	}
+
 	for (int i = 0; i < n.size(); i++)
 	{
 		if (!isdigit(n[i]))
@@ -44,8 +45,8 @@ bool CheckCorrectInputNumber(string n) {
 			return false;
 		}
 	}
-	int x = stoi(n);
-	//Проверка на верхнюю и нижнюю границу числа
+	int x = stoi(n);//выбрасывает исключение, когда не число -> проверить
+	
 	if ((x > 255) || (x < 0))
 	{
 		cout << "Incorrect number";
@@ -54,7 +55,7 @@ bool CheckCorrectInputNumber(string n) {
 	return true;
 }
 
-bool CheckArgs(int argc) {
+bool ArgsRightAmount(int argc) {
 	if (!argc)
 	{
 		cout << "Invalid arguments count \n";
@@ -65,12 +66,12 @@ bool CheckArgs(int argc) {
 
 int main(int argc, char* argv[])
 {
-	auto args = ParseArgs(argc, argv);
-	if (!CheckArgs)
+	auto args = ParseArgs(argc, argv);//проверить optional на пустоту
+	if (!ArgsRightAmount) //()
 	{
 		return 1;
 	}
-	if (!CheckCorrectInputNumber(args->inputNumber))
+	if (!InputNumberCorrectWas(args->inputNumber))
 	{
 		return 1;
 	}
