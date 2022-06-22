@@ -37,15 +37,24 @@ bool InputNumberCorrectWas(string n) {
 		return false;
 	}
 
-	for (int i = 0; i < n.size(); i++)
+/*	for (int i = 0; i < n.size(); i++)
 	{
 		if (!isdigit(n[i]))
 		{
 			cout << "Input value is not digit";
 			return false;
 		}
+	}*/
+	int x; 
+	try
+	{
+		x =	stoi(n);//выбрасывает исключение, когда не число -> проверить
 	}
-	int x = stoi(n);//выбрасывает исключение, когда не число -> проверить
+	catch(invalid_argument const &ex)
+	{
+		cout << "Input value is not digit";
+		return false;
+	}
 	
 	if ((x > 255) || (x < 0))
 	{

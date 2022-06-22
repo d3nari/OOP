@@ -18,7 +18,7 @@ fc %TEMP%\output.txt Null_Number_output.txt || goto err
 echo Test 2 passed
 
 REM Number outs of bounds
-%MyProgram% "256" > %TEMP%\output.txt && goto err
+%MyProgram% "258" > %TEMP%\output.txt && goto err
 fc %TEMP%\output.txt Number_Out_Bounds_output.txt || goto err
 echo Test 3 passed
 
